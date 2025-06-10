@@ -1,0 +1,1934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React API Endpoints Analysis</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --success-color: #2ecc71;
+            --warning-color: #f1c40f;
+            --danger-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --border-color: #dee2e6;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        
+        h2 {
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .stat-card {
+            flex: 1;
+            background-color: white;
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            margin: 0;
+            font-size: 16px;
+            color: var(--dark-color);
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+        
+        .endpoint-card {
+            background-color: white;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .endpoint-header {
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid var(--border-color);
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .endpoint-header:hover {
+            background-color: #e9ecef;
+        }
+        
+        .endpoint-name {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-family: monospace;
+            font-size: 16px;
+        }
+        
+        .endpoint-content {
+            padding: 20px;
+        }
+        
+        .params-section {
+            margin-top: 15px;
+        }
+        
+        .params-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .param-list {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+        }
+        
+        .param-item {
+            margin: 5px 0;
+            font-family: monospace;
+        }
+        
+        .param-name {
+            font-weight: bold;
+            color: #e83e8c;
+        }
+        
+        .param-value {
+            color: #28a745;
+        }
+        
+        .template-param {
+            color: #fd7e14;
+        }
+        
+        .files-section {
+            margin-top: 15px;
+        }
+        
+        .file-list {
+            padding-left: 20px;
+        }
+        
+        .search-container {
+            margin-bottom: 20px;
+        }
+        
+        #searchInput {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
+        }
+        
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 10px;
+            transition: background-color 0.2s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 14px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .collapsible {
+            display: none;
+        }
+        
+        .expand-all:after {
+            content: ' [+]';
+        }
+        
+        /* Badge styling */
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 10px;
+            margin-left: 10px;
+        }
+        
+        .badge-static {
+            background-color: #e0f7fa;
+            color: #0097a7;
+        }
+        
+        .badge-template {
+            background-color: #fff3e0;
+            color: #e65100;
+        }
+        
+        .badge-dynamic {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        /* HTTP Method badges */
+        .method-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+        
+        .method-get {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+        
+        .method-post {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .method-put {
+            background-color: #fff8e1;
+            color: #ff8f00;
+        }
+        
+        .method-delete {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        .method-patch {
+            background-color: #e0f2f1;
+            color: #00695c;
+        }
+        
+        /* Request body styles */
+        .body-title {
+            font-weight: bold;
+            margin: 10px 0 5px;
+            color: var(--secondary-color);
+        }
+        
+        .param-type {
+            color: #6c757d;
+            font-style: italic;
+        }
+        
+        .no-results {
+            background-color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>React API Endpoints Analysis</h1>
+        <p>Analysis of API endpoints and query parameters found in JavaScript files.</p>
+        <p class="generation-date">Generated on: 2025-06-10 10:11:34</p>
+    </header>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search for endpoints, parameters, or files...">
+    </div>
+
+    <div class="controls">
+        <div>
+            <button id="expandAll" class="expand-all">Expand All</button>
+            <button id="collapseAll">Collapse All</button>
+        </div>
+        <div>
+            <label for="filterDropdown">Filter by: </label>
+            <select id="filterDropdown">
+                <option value="all">All Endpoints</option>
+                <option value="static">Static Parameters</option>
+                <option value="template">Template Parameters</option>
+                <option value="dynamic">Dynamic Parameters</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="stats">
+        <div class="stat-card">
+            <h3>Total Endpoints</h3>
+            <div class="stat-value" id="totalEndpoints">51</div>
+        </div>
+        <div class="stat-card">
+            <h3>Static Parameters</h3>
+            <div class="stat-value" id="staticParamsCount">3</div>
+        </div>
+        <div class="stat-card">
+            <h3>Template Parameters</h3>
+            <div class="stat-value" id="templateParamsCount">85</div>
+        </div>
+        <div class="stat-card">
+            <h3>Unique Files</h3>
+            <div class="stat-value" id="filesCount">2</div>
+        </div>
+    </div>
+
+    <h2>API Endpoints</h2>
+    <div id="endpoints-container">
+        <!-- Endpoint cards will be inserted here -->
+    </div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/autostore-grid/${i</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-static">Static Params</span>
+<span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+            <div class="params-section static-params">
+                <div class="params-title">Static Parameters:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="param-name">?</span>: <i>null</i></div><div class="param-item"><span class="param-name">format</span>: <span class="template-param">${n.format}</span></div><div class="param-item"><span class="param-name">orderId</span>: <span class="template-param">${d}</span></div>
+                </div>
+            </div>
+            
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${o??""}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/autostore-grid/${l</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${u??""}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/autostore-grid/{PARAM}/bin/{PARAM}</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${Ke}</span></div><div class="param-item"><span class="template-param">${t}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/autostore-grid/{PARAM}/bin/{PARAM}/get-log-publisher-state</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${e}</span></div><div class="param-item"><span class="template-param">${t}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/autostore-grid/{PARAM}/get-flagged-bins</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${t}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/autostore-grid/{PARAM}/port/{PARAM}</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${i??""}</span></div><div class="param-item"><span class="template-param">${l??""}</span></div><div class="param-item"><span class="template-param">${o??""}</span></div><div class="param-item"><span class="template-param">${u??""}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/autostore-grid/{PARAM}/port/{PARAM}/bin/{PARAM}/close</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${f}</span></div><div class="param-item"><span class="template-param">${n}</span></div><div class="param-item"><span class="template-param">${p}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/autostore-grid/{PARAM}/port/{PARAM}/bin/{PARAM}/flag</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${M}</span></div><div class="param-item"><span class="template-param">${O}</span></div><div class="param-item"><span class="template-param">${R}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/autostore-grid/{PARAM}/port/{PARAM}/bin/{PARAM}/open</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${O}</span></div><div class="param-item"><span class="template-param">${R}</span></div><div class="param-item"><span class="template-param">${b}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/autostore-grid/{PARAM}/port/{PARAM}/category/{PARAM}/open</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${d}</span></div><div class="param-item"><span class="template-param">${h}</span></div><div class="param-item"><span class="template-param">${n}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/autostore-grid/{PARAM}/port/{PARAM}/close</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${f}</span></div><div class="param-item"><span class="template-param">${p}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/autostore-grid/{PARAM}/port/{PARAM}/next-bin-with-bin-configuration</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${f}</span></div><div class="param-item"><span class="template-param">${h}</span></div><div class="param-item"><span class="template-param">${p}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/autostore-grid/{PARAM}/port/{PARAM}/next-empty-bin</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${d}</span></div><div class="param-item"><span class="template-param">${h}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/autostore-grid/{PARAM}/port/{PARAM}/picking-state</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${d}</span></div><div class="param-item"><span class="template-param">${h}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/autostore-grid/{PARAM}/port/{PARAM}/start-picking</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${p}</span></div><div class="param-item"><span class="template-param">${x}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/autostore-grid/{PARAM}/port/{PARAM}/task/{PARAM}/picking-state</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${d}</span></div><div class="param-item"><span class="template-param">${h}</span></div><div class="param-item"><span class="template-param">${o}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/autostore-grid/{PARAM}/task-group/synchronize</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${b}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/autostore-grid/{PARAM}/workstation/{PARAM}/request-bins</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${Me}</span></div><div class="param-item"><span class="template-param">${rt}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/autostore-grid/{PARAM}/workstation/{PARAM}/start-picking-on-workstation</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${f}</span></div><div class="param-item"><span class="template-param">${p}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/batches/{PARAM}</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${e}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/batches/{PARAM}/complete</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${e}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/batches/{PARAM}/prepare-cart</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${e}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/batches/{PARAM}/suspend</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${e}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/bins/search/{PARAM}</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${Fe}</span></div><div class="param-item"><span class="template-param">${L}</span></div><div class="param-item"><span class="template-param">${j||""}</span></div><div class="param-item"><span class="template-param">${o}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/bins/{PARAM}</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${Fe}</span></div><div class="param-item"><span class="template-param">${e}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/cycle-counts-overhaul/{PARAM}/frequency</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${e}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/cycle-counts/{PARAM}</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${a}</span></div><div class="param-item"><span class="template-param">${e}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/cycle-counts/{PARAM}/bin-counts</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${a}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/cycle-counts/{PARAM}/completion</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${i}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/cycle-counts/{PARAM}/removal</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${I}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/cycle-counts/{PARAM}/uncounted-bins</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${l}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/fulfillment-centers/{PARAM}</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${e}</span></div><div class="param-item"><span class="template-param">${f}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/inventory/grid/{PARAM}/by-autostore-bin-number/{PARAM}</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${e}</span></div><div class="param-item"><span class="template-param">${t}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/inventory/holds/{PARAM}/place</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${e}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/inventory/report/variant/{PARAM}</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${e}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/inventory/{PARAM}</span>
+        <span>
+            <span class="method-badge method-patch">PATCH</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${n}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/inventory/{PARAM}/hold</span>
+        <span>
+            <span class="method-badge method-delete">DELETE</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${e}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/inventory/{PARAM}/move</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${G}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/labels/batch/${e}</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+<span class="badge badge-dynamic">Dynamic</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${n.format}</span></div>
+                </div>
+            </div>
+            
+        
+            <div class="params-section dynamic-patterns">
+                <div class="params-title">Dynamic Patterns:</div>
+                <div class="param-list">
+                    <div class="param-item">format=dynamic</div>
+                </div>
+            </div>
+            
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/labels/batch/{PARAM}?format={PARAM}</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${e}</span></div><div class="param-item"><span class="template-param">${n.format}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/picks</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+<span class="badge badge-dynamic">Dynamic</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${d}</span></div>
+                </div>
+            </div>
+            
+        
+            <div class="params-section dynamic-patterns">
+                <div class="params-title">Dynamic Patterns:</div>
+                <div class="param-list">
+                    <div class="param-item">orderId=dynamic</div>
+                </div>
+            </div>
+            
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/picks?orderId={PARAM}</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${d}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/records</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+        
+        
+            <div class="params-section request-bodies">
+                <div class="params-title">Request Body Structure:</div>
+                
+                <div class="param-list">
+                    <div class="body-title">Body #1 (application/json):</div>
+                    <div class="param-item"><span class="param-name">created</span>: <span class="param-type">(string)</span> new Date().toISOString()</div><div class="param-item"><span class="param-name">tags</span>: <span class="param-type">(array)</span> ['important', 'high-priority']</div><div class="param-item"><span class="param-name">settings</span>: <span class="param-type">(object)</span> {
+        visibility: 'public',
+        editable: true
+      }</div>
+                </div>
+                
+            </div>
+            
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>sample_api_calls.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/slots/{PARAM}/change-of-bin</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${e}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/users</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+        
+        
+            <div class="params-section request-bodies">
+                <div class="params-title">Request Body Structure:</div>
+                
+                <div class="param-list">
+                    <div class="body-title">Body #1 (application/json):</div>
+                    <div class="param-item"><span class="param-name">firstName</span>: <span class="param-type">(string)</span> Robert</div><div class="param-item"><span class="param-name">lastName</span>: <span class="param-type">(string)</span> Williams</div><div class="param-item"><span class="param-name">email</span>: <span class="param-type">(string)</span> robertwilliams@example.com</div><div class="param-item"><span class="param-name">age</span>: <span class="param-type">(number)</span> 35</div>
+                </div>
+                
+            </div>
+            
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>sample_api_calls.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/users/avatar</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>sample_api_calls.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/users/{PARAM}</span>
+        <span>
+            <span class="method-badge method-get">GET</span><span class="method-badge method-patch">PATCH</span><span class="method-badge method-post">POST</span><span class="method-badge method-put">PUT</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${userId}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>sample_api_calls.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/variants/search-products/{PARAM}</span>
+        <span>
+            <span class="method-badge method-get">GET</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${r}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/workstations/grid/{PARAM}/workstation/{PARAM}/close-workstation</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${Me}</span></div><div class="param-item"><span class="template-param">${b.autostoreGridId}</span></div><div class="param-item"><span class="template-param">${b.id}</span></div><div class="param-item"><span class="template-param">${i}</span></div><div class="param-item"><span class="template-param">${r}</span></div><div class="param-item"><span class="template-param">${rt}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/workstations/{PARAM}/deactivate-workstation</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${v.id}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="endpoint-card">
+    <div class="endpoint-header">
+        <span class="endpoint-name">/api/workstations/{PARAM}/mode/{PARAM}</span>
+        <span>
+            <span class="method-badge method-post">POST</span>
+            <span class="badge badge-template">Template Vars</span>
+        </span>
+    </div>
+    <div class="endpoint-content collapsible">
+        
+        
+            <div class="params-section template-params">
+                <div class="params-title">Template Variables:</div>
+                <div class="param-list">
+                    <div class="param-item"><span class="template-param">${p}</span></div><div class="param-item"><span class="template-param">${v}</span></div>
+                </div>
+            </div>
+            
+        
+        
+        <div class="files-section">
+            <div class="params-title">Found in files:</div>
+            <div class="file-list">
+                <div>index-Ir3trWn4.js</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <footer>
+        <p>Generated by React JS API Analyzer</p>
+    </footer>
+
+    <script>
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', filterEndpoints);
+        document.getElementById('filterDropdown').addEventListener('change', filterEndpoints);
+        
+        function filterEndpoints() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filterType = document.getElementById('filterDropdown').value;
+            const endpointCards = document.querySelectorAll('.endpoint-card');
+            let visibleCount = 0;
+            
+            endpointCards.forEach(card => {
+                const endpointText = card.textContent.toLowerCase();
+                const hasStaticParams = card.querySelector('.static-params') !== null;
+                const hasTemplateParams = card.querySelector('.template-params') !== null;
+                const hasDynamicPatterns = card.querySelector('.dynamic-patterns') !== null;
+                
+                let shouldShow = endpointText.includes(searchTerm);
+                
+                // Apply filter type
+                if (shouldShow && filterType !== 'all') {
+                    if (filterType === 'static' && !hasStaticParams) shouldShow = false;
+                    if (filterType === 'template' && !hasTemplateParams) shouldShow = false;
+                    if (filterType === 'dynamic' && !hasDynamicPatterns) shouldShow = false;
+                }
+                
+                card.style.display = shouldShow ? 'block' : 'none';
+                if (shouldShow) visibleCount++;
+            });
+            
+            // Show no results message if needed
+            const noResultsEl = document.getElementById('no-results');
+            if (visibleCount === 0) {
+                if (!noResultsEl) {
+                    const message = document.createElement('div');
+                    message.id = 'no-results';
+                    message.className = 'no-results';
+                    message.textContent = 'No endpoints match your search criteria.';
+                    document.getElementById('endpoints-container').appendChild(message);
+                }
+            } else if (noResultsEl) {
+                noResultsEl.remove();
+            }
+        }
+        
+        // Expand/collapse functionality
+        document.querySelectorAll('.endpoint-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                content.style.display = content.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+        
+        document.getElementById('expandAll').addEventListener('click', function() {
+            const contents = document.querySelectorAll('.endpoint-content');
+            const isExpanding = this.classList.contains('expand-all');
+            
+            contents.forEach(content => {
+                const card = content.closest('.endpoint-card');
+                if (card.style.display !== 'none') {  // Only affect visible cards
+                    content.style.display = isExpanding ? 'block' : 'none';
+                }
+            });
+            
+            if (isExpanding) {
+                this.textContent = 'Collapse All';
+                this.classList.remove('expand-all');
+            } else {
+                this.textContent = 'Expand All';
+                this.classList.add('expand-all');
+            }
+        });
+        
+        document.getElementById('collapseAll').addEventListener('click', function() {
+            document.querySelectorAll('.endpoint-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            const expandAllBtn = document.getElementById('expandAll');
+            expandAllBtn.textContent = 'Expand All';
+            expandAllBtn.classList.add('expand-all');
+        });
+    </script>
+</body>
+</html>

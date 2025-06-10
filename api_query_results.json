@@ -1,0 +1,857 @@
+{
+  "backend_endpoints": {
+    "/api/users/{PARAM}": {
+      "files": [
+        "sample_api_calls.js"
+      ],
+      "params": {},
+      "template_params": [
+        "userId"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "PATCH",
+        "GET",
+        "POST",
+        "PUT"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/users": {
+      "files": [
+        "sample_api_calls.js"
+      ],
+      "params": {},
+      "template_params": [],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [
+        {
+          "contentType": "application/json",
+          "properties": {
+            "firstName": {
+              "type": "string",
+              "example": "Robert"
+            },
+            "lastName": {
+              "type": "string",
+              "example": "Williams"
+            },
+            "email": {
+              "type": "string",
+              "example": "robertwilliams@example.com"
+            },
+            "age": {
+              "type": "number",
+              "example": "35"
+            }
+          }
+        }
+      ],
+      "responses": []
+    },
+    "/api/users/avatar": {
+      "files": [
+        "sample_api_calls.js"
+      ],
+      "params": {},
+      "template_params": [],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/records": {
+      "files": [
+        "sample_api_calls.js"
+      ],
+      "params": {},
+      "template_params": [],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [
+        {
+          "contentType": "application/json",
+          "properties": {
+            "created": {
+              "type": "string",
+              "example": "new Date().toISOString()"
+            },
+            "tags": {
+              "type": "array",
+              "example": "['important', 'high-priority']"
+            },
+            "settings": {
+              "type": "object",
+              "example": "{\n        visibility: 'public',\n        editable: true\n      }"
+            }
+          }
+        }
+      ],
+      "responses": []
+    },
+    "/api/autostore-grid/${i": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {
+        "?": [
+          null
+        ],
+        "orderId": [
+          "${d}"
+        ],
+        "format": [
+          "${n.format}"
+        ]
+      },
+      "template_params": [
+        "o??\"\""
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/variants/search-products/{PARAM}": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "r"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/autostore-grid/{PARAM}/port/{PARAM}/next-empty-bin": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "d",
+        "h"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/autostore-grid/{PARAM}/port/{PARAM}/next-bin-with-bin-configuration": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "p",
+        "f",
+        "h"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/autostore-grid/{PARAM}/port/{PARAM}": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "i??\"\"",
+        "u??\"\"",
+        "l??\"\"",
+        "o??\"\""
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/workstations/grid/{PARAM}/workstation/{PARAM}/close-workstation": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "b.autostoreGridId",
+        "r",
+        "rt",
+        "b.id",
+        "Me",
+        "i"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/autostore-grid/{PARAM}/port/{PARAM}/close": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "p",
+        "f"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/autostore-grid/${l": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "u??\"\""
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/autostore-grid/{PARAM}/port/{PARAM}/category/{PARAM}/open": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "d",
+        "h",
+        "n"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/autostore-grid/{PARAM}/port/{PARAM}/bin/{PARAM}/close": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "p",
+        "f",
+        "n"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/autostore-grid/{PARAM}/port/{PARAM}/task/{PARAM}/picking-state": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "d",
+        "h",
+        "o"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/autostore-grid/{PARAM}/port/{PARAM}/picking-state": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "d",
+        "h"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/autostore-grid/{PARAM}/workstation/{PARAM}/start-picking-on-workstation": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "p",
+        "f"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/autostore-grid/{PARAM}/port/{PARAM}/start-picking": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "x",
+        "p"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/autostore-grid/{PARAM}/bin/{PARAM}/get-log-publisher-state": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "e",
+        "t"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/inventory/report/variant/{PARAM}": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "e"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/inventory/{PARAM}/hold": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "e"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "DELETE"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/inventory/grid/{PARAM}/by-autostore-bin-number/{PARAM}": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "e",
+        "t"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/slots/{PARAM}/change-of-bin": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "e"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/bins/{PARAM}": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "e",
+        "Fe"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/inventory/holds/{PARAM}/place": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "e"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/inventory/{PARAM}": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "n"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "PATCH"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/cycle-counts/{PARAM}": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "e",
+        "a"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/cycle-counts/{PARAM}/uncounted-bins": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "l"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/cycle-counts-overhaul/{PARAM}/frequency": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "e"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/cycle-counts/{PARAM}/bin-counts": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "a"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/cycle-counts/{PARAM}/completion": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "i"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/autostore-grid/{PARAM}/bin/{PARAM}": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "Ke",
+        "t"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/autostore-grid/{PARAM}/task-group/synchronize": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "b"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/batches/{PARAM}": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "e"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/batches/{PARAM}/prepare-cart": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "e"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/picks?orderId={PARAM}": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "d"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/picks": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "d"
+      ],
+      "dynamic_patterns": [
+        "orderId=dynamic"
+      ],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/autostore-grid/{PARAM}/port/{PARAM}/bin/{PARAM}/open": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "R",
+        "O",
+        "b"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/autostore-grid/{PARAM}/port/{PARAM}/bin/{PARAM}/flag": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "R",
+        "M",
+        "O"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/batches/{PARAM}/suspend": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "e"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/batches/{PARAM}/complete": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "e"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/labels/batch/{PARAM}?format={PARAM}": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "e",
+        "n.format"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/labels/batch/${e}": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "n.format"
+      ],
+      "dynamic_patterns": [
+        "format=dynamic"
+      ],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/autostore-grid/{PARAM}/get-flagged-bins": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "t"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/cycle-counts/{PARAM}/removal": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "I"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/autostore-grid/{PARAM}/workstation/{PARAM}/request-bins": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "rt",
+        "Me"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/fulfillment-centers/{PARAM}": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "f",
+        "e"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/bins/search/{PARAM}": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "Fe",
+        "o",
+        "L",
+        "j||\"\""
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "GET"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/inventory/{PARAM}/move": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "G"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/workstations/{PARAM}/deactivate-workstation": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "v.id"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    },
+    "/api/workstations/{PARAM}/mode/{PARAM}": {
+      "files": [
+        "index-Ir3trWn4.js"
+      ],
+      "params": {},
+      "template_params": [
+        "p",
+        "v"
+      ],
+      "dynamic_patterns": [],
+      "http_methods": [
+        "POST"
+      ],
+      "request_bodies": [],
+      "responses": []
+    }
+  }
+}
