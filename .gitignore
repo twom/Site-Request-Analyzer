@@ -19,6 +19,9 @@ build/
 # Logs
 *.log
 
+# Results folder - ignore generated output files
+results/
+
 # Local development settings
 .env
 .vscode/
